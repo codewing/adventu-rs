@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 eframe = "0.18"
+rlua = "0.19"
+rodio = "0.15"
