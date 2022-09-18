@@ -1,36 +1,43 @@
+use std::rc::Rc;
 use eframe::{egui::{CentralPanel, ScrollArea, Grid, Button, TopBottomPanel, Layout}, NativeOptions, epaint::{Vec2}, App};
+use egui_dock::DockArea;
+
+mod ui;
+use ui::file_browser::FileBrowser;
+use ui::main_window::MainWindow;
+
+mod data;
+use crate::data::adventure_project::AdventureProject;
 
 fn main() {
     let mut win_options = NativeOptions::default();
-    win_options.initial_window_size = Some(Vec2::new(800f32, 600f32));
-    eframe::run_native("Adventu-rs", win_options, Box::new(|cc| Box::new(UpdaterApp::new(cc))));
+    win_options.initial_window_size = Some(Vec2::new(1600f32, 900f32));
+    eframe::run_native("Adventu-rs", win_options, Box::new(|cc| Box::new(AdventureApp::new(cc))));
 }
 
-#[derive(Default)]
-struct UpdaterApp {}
+struct AdventureApp {
+    pub main_window: MainWindow,
+    pub project: Rc<AdventureProject>,
+}
 
-impl UpdaterApp {
+impl AdventureApp {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_visuals.
         // Restore app state using cc.storage (requires the "persistence" feature).
         // Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
         // for e.g. egui::PaintCallback.
-        Self::default()
+        let proj = Rc::new(AdventureProject::new(String::from("Unnamed Adventure")));
+        Self {
+            main_window: MainWindow::new(proj.clone()),
+            project: proj.clone(),
+        }
     }
 }
 
-impl App for UpdaterApp {
+impl App for AdventureApp {
 
     fn update(&mut self, ctx: &eframe::egui::Context, _frame: &mut eframe::Frame) {
-        
-        CentralPanel::default().show(ctx, |ui| {
-            //self.handle_package_grid(ui);
-        });
-
-        TopBottomPanel::bottom("bottom_panel").show(ctx, |ui| {
-            ui.horizontal(|ui| {
-                            
-            });
-        });
+        self.main_window.update(ctx, _frame);
     }
+
 }
