@@ -2,12 +2,11 @@ use std::rc::Rc;
 use eframe::{egui::{CentralPanel, ScrollArea, Grid, Button, TopBottomPanel, Layout}, NativeOptions, epaint::{Vec2}, App};
 use egui_dock::DockArea;
 
-mod ui;
-use ui::file_browser::FileBrowser;
-use ui::main_window::MainWindow;
+pub mod ui;
+use crate::ui::MainWindow;
 
-mod data;
-use crate::data::adventure_project::AdventureProject;
+pub mod data;
+use crate::data::AdventureProject;
 
 fn main() {
     let mut win_options = NativeOptions::default();

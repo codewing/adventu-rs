@@ -55,10 +55,13 @@ impl MainWindow {
             .show(ctx, |ui| {
                 ui.menu_button("File", |ui| {
                     if ui.button("Open Project").clicked() {
-
+                        
                     }
 
                     if ui.button("Rename Project").clicked() {
+                        self.show_rename_dialog = true;
+                    }
+                    if ui.button("Save Project").clicked() {
                         self.show_rename_dialog = true;
                     }
                 });
@@ -68,7 +71,7 @@ impl MainWindow {
             });
         DockArea::new(&mut self.tree).show(ctx, &mut egui_dock::DynamicTabViewer {});
 
-        if(self.show_rename_dialog) {
+        if self.show_rename_dialog {
             eframe::egui::Window::new("Rename Project")
                 .collapsible(false)
                 .resizable(false)
@@ -84,6 +87,7 @@ impl MainWindow {
                         }
 
                         if ui.button("Rename").clicked() {
+                            
                             self.show_rename_dialog = false;
                         }
                     });
@@ -92,8 +96,6 @@ impl MainWindow {
 
     }
 }
-
-// self.tree.push_to_focused_leaf(Box::new(Editor::new("New Text".into())));
 
 struct TabViewer {}
 
