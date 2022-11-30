@@ -1,5 +1,5 @@
-mod adventure_project;
+pub mod adventure_project;
 pub use adventure_project::*;
 
-mod scene;
+pub mod scene;
 pub use scene::*;
